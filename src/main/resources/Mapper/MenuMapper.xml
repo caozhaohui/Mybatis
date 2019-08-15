@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="org.taru.dao.queryMenuDao">
+    <!-- statement，内容：sql语句。id：唯一标识，随便写，在同一个命名空间下保持唯一
+       resultType：sql语句查询结果集的封装类型,tb_user即为数据库中的表
+     -->
+    <!-- /////////////////////////////////一对多的第一种写法//////////////////////// -->
+    <resultMap type="org.taru.domel.Menu" id="MenuMap">
+        <id column="id" property="id"/>
+        <result column="faname" property="name"/>
+        <collection property="date" ofType="org.taru.domel.Menu" >
+            <id column="id" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+            <result column="sonname" property="name"/>
+        </collection>
+    </resultMap>
+    <!-- 查询菜单树 -->
+    <!--<select>标签的id属性一点要是Dao层接口的方法名，否则无法解析SQL-->
+<!--sql语句是五表联查查询用户的权限，生成动态菜单的SQL语句，对于初学者应该有点挑战，但是非常经典-->
+    <select id="queryMenu" parameterType="org.taru.domel.Menu" resultMap="MenuMap">
+
+			select e.name as faname,f.name as sonname
+            from
+            sys_user a
+            left join sys_user_role b on a.id = b.user_id
+            left join sys_role c on b.role_id = c.id
+            left join sys_role_menu d on c.id = d.role_id
+            left join  sys_menu e on d.menu_id = e.id
+						left join sys_menu f on f.parent_id=e.id
+            where
+            e.del_flag = 0  and a.id =#{user.id}
+
+	</select>
+</mapper>

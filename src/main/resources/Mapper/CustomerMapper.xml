@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="org.taru.dao.CustomerDao">
+
+<!--查询带分页-->
+<!--返回的结果集-->
+    <resultMap type="org.taru.domel.Customer" id="CustomerMap">
+        <id column="CUST_ID" property="CUST_ID"/>
+        <result column="CUST_NAME" property="CUST_NAME"/>
+        <result column="CUST_BOSS" property="CUST_BOSS"/>
+        <result column="CUST_TELPHONE" property="CUST_TELPHONE"/>
+        <result column="CUST_ADDRESS" property="CUST_ADDRESS"/>
+        <result column="CUST_DAY" property="CUST_DAY"/>
+
+    </resultMap>
+<!--查询语句--><!--注意返回的结果集要和上边的结果集对应-->
+    <select id="querycustomer"  resultMap="CustomerMap">
+        select * from customer
+    </select>
+</mapper>

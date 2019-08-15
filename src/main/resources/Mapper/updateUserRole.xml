@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="org.taru.dao.UpdateUserRoleDao">
+
+<!--更新用户角色-->
+    <update id="updateUserRole" parameterType="org.taru.domel.User,org.taru.domel.Role">
+         update sys_user_role a set a.role_id=#{roleid} where a.user_id=#{userid}
+    </update>
+</mapper>
